@@ -129,7 +129,7 @@ if ( ! class_exists('ZB_RestEndpoints')):
                 endif;
                 $response[$post->ID]['title'] = the_title($post->ID);
                 $response[$post->ID]['post_date'] = get_the_date('F d, Y', $post->ID);
-                $response[$post->ID]['post_excerpt'] = wp_kses_post( wp_trim_words( $post->post_content, 100 ) );
+                $response[$post->ID]['post_excerpt'] = wp_kses_post( wp_trim_words( $post->post_content, 100, '' ) );
 
             endforeach;
 
