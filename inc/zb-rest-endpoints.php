@@ -144,9 +144,31 @@ if ( ! class_exists('ZB_RestEndpoints')):
         }
 
         public function getPage(WP_REST_REQUEST $request) {
-            $page_id = $request['id'];
-            $zb_post = get_post( $page_id );
-            return $zb_post;
+            $post_title = $request['page'];
+
+            $response = [];
+            $args = array(
+                'post_type' => 'page',
+                'post_status' => 'publish',
+                'name' => $post_title,
+                'posts_per_page' => '1',
+            );
+            $posts = get_posts( $args );
+
+            foreach ( $posts as $post ) :
+                $response['slug'] = get_post_field('post_name', $post->ID );
+                $has_thumbnail = has_post_thumbnail($post->ID);
+                if($has_thumbnail):
+                    $response['featured_image'] = get_the_post_thumbnail( $post->ID, 'thumbnail' );
+                    $response['featured_image_url'] = get_the_post_thumbnail_url( $post->ID, 'thumbnail' );
+                endif;
+                $response['post_title'] = get_the_title($post->ID);
+                $response['post_date'] = get_the_date('F d, Y', $post->ID);
+                $response['post_content'] = $post->post_content;
+            endforeach;
+
+            return $response;
+
         }
 
     }
