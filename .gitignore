@@ -5,6 +5,8 @@ yarn-error.log
 
 # Editor directories and files
 .idea
+.babelrc
+_config.yml
 *.suo
 *.ntvs*
 *.njsproj
